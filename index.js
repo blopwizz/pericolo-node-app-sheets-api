@@ -29,13 +29,13 @@ function action(auth) {
   const resource = {
     values
   };
-  write(sheets, resource)
+  read(sheets, 'A1:H6');
 }
 
 function read(sheets, range) {
   sheets.spreadsheets.values.get({
     spreadsheetId: ID_SPREADSHEET,
-    range: NAME_SHEET + '!' + 'A1:H6', // Google Sheets syntex "Sheet 1!A1:A1000"
+    range: NAME_SHEET + '!' + range, // Google Sheets syntex "Sheet 1!A1:A1000"
   }, (err, res) => {
     if (err) return console.log('The  API returned an error: ' + err);
     const rows = res.data.values;
