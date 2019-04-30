@@ -14,7 +14,22 @@ fs.readFile('credentials.json', (err, content) => {
 
 function action(auth) {
   const sheets = api.google.sheets({version: 'v4', auth});
-  read(sheets, 'AI:H6');
+  let values = [
+    [
+      '9451709',	
+      'stgarti@gmail.com',	
+      "1 Place du Jardin Zoologique, 13006, Marseille",
+      "2019-04-30T21:43:52",
+      "La cage d'escalier",
+      "Une fissure sous la volée de marches",
+      "https://storage.googleapis.com/media.helloumi.com/customers/9451709/AQT406K2VMDX043L7U0AKCB49N389NAE.png",
+      "added_picture"
+    ]
+  ];
+  const resource = {
+    values
+  };
+  write(sheets, resource)
 }
 
 function read(sheets, range) {
@@ -31,6 +46,21 @@ function read(sheets, range) {
       });
     } else {
       console.log('No data found.');
+    }
+  });
+}
+
+function write(sheets, resource) {
+  sheets.spreadsheets.values.update({
+    spreadsheetId : ID_SPREADSHEET,
+    range: NAME_SHEET + '!' + 'A7:H7',
+    valueInputOption: "RAW",
+    resource,
+  }, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('%d cells updated.', result.updatedCells);
     }
   });
 }
